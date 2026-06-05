@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import validator from "validator";
+import { BadRequestError } from "../errors/bad-request-error.js";
 
 const lectureSchema = new mongoose.Schema(
   {
@@ -7,6 +8,7 @@ const lectureSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      minLength: 3,
       maxlength: 200,
     },
 
@@ -120,10 +122,12 @@ const courseSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 0,
+      default: 0,
     },
 
     objectives: {
       type: [String],
+      required: true,
       validate: {
         validator: (arr: string[]) => arr.length > 0,
         message: "the objectives can not be empty",
@@ -171,6 +175,16 @@ courseSchema.index({
   category: 1,
   level: 1,
   primaryLanguage: 1,
+});
+
+courseSchema.pre("save", function () {
+  if (
+    (this.isModified("isPublished") || this.isModified("lectures")) &&
+    this.isPublished &&
+    this.lectures.length === 0
+  ) {
+    throw new BadRequestError("the course can not have 0 lectures");
+  }
 });
 
 export default mongoose.model("Course", courseSchema);
