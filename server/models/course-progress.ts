@@ -1,16 +1,15 @@
 import mongoose from "mongoose";
 
 type LectureProgressType = {
-  lectureId: string;
+  lectureId: mongoose.Types.ObjectId;
   viewed: boolean;
-  viewDate: Date;
+  viewDate: Date | null;
 };
 
 const lectureProgressSchema = new mongoose.Schema(
   {
     lectureId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Course.lectures",
       required: true,
     },
 
@@ -70,5 +69,16 @@ const courseProgressSchema = new mongoose.Schema(
 );
 courseProgressSchema.index({ userId: 1, courseId: 1 }, { unique: true });
 courseProgressSchema.index({ courseId: 1 });
+
+courseProgressSchema.pre("save", function () {
+  this.lecturesProgress.forEach((lecture) => {
+    if (lecture.viewed && !lecture.viewDate) {
+      lecture.viewDate = new Date();
+    }
+    if (!lecture.viewed) {
+      lecture.viewDate = null;
+    }
+  });
+});
 
 export default mongoose.model("CourseProgress", courseProgressSchema);
