@@ -1,0 +1,31 @@
+import { Module } from '@nestjs/common';
+import { AuthController } from './auth.controller';
+import { AuthService } from './providers/auth.service';
+import { HashingProvider } from './providers/hashing.provider';
+import { BcryptProvider } from './providers/bcrypt.provider';
+import { UsersModule } from 'src/users/users.module';
+import { GenerateTokenProvider } from './providers/generate-token.provider';
+import { ConfigModule } from '@nestjs/config';
+import jwtConfig from './config/jwt.config';
+import { JwtModule } from '@nestjs/jwt';
+import { GoogleAuthenticationController } from './social/google-authentication.controller';
+import { GoogleAuthenticationService } from './social/providers/google-authentication.service';
+
+@Module({
+  providers: [
+    AuthService,
+    {
+      provide: HashingProvider,
+      useClass: BcryptProvider,
+    },
+    GenerateTokenProvider,
+    GoogleAuthenticationService,
+  ],
+  controllers: [AuthController, GoogleAuthenticationController],
+  imports: [
+    UsersModule,
+    ConfigModule.forFeature(jwtConfig),
+    JwtModule.registerAsync(jwtConfig.asProvider()),
+  ],
+})
+export class AuthModule {}

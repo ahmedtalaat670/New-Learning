@@ -1,0 +1,6 @@
+POST http://localhost:3000/api/v1/lecture-progress
+Content-Type: application/json
+{
+    "courseProgressId": 5,
+    "lectureId": 4
+}

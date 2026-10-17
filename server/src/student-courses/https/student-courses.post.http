@@ -1,0 +1,7 @@
+POST http://localhost:3000/api/v1/student-courses
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZDU2OTgzMC02NDVkLTQwOTMtOTlkMC0wMmQxODdhMzJiNTYiLCJlbWFpbCI6ImFobWVkMkBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc4Mzg2NjE1OCwiZXhwIjoxNzgzODY5NzU4LCJhdWQiOiJsb2NhbGhvc3Q6MzAwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAwIn0.po8oBZk_kWJrVCiTqOI4LfMdcuDzBat8ib_E5vckD-Y
+
+{
+    "courseId": 6
+}

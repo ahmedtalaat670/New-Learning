@@ -1,0 +1,24 @@
+POST http://localhost:3000/api/v1/courses
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNDRkMzVhMy05MjIxLTRkM2YtYTlhNy05MTdmNzBhZmIzMDAiLCJlbWFpbCI6ImFobWVkQGdtYWlsLmNvbSIsInJvbGUiOiJpbnN0cnVjdG9yIiwiaWF0IjoxNzgzODQ3MjI3LCJleHAiOjE3ODM4NTA4MjcsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.cfM0JonlklZQroxhwu7rasy45qzZE3cF7LSqHS4hTbU
+
+{
+    "title": "Nest Js",
+    "category": "web-development",
+    "level": "intermediate",
+    "primaryLanguage": "english",
+    "subtitle": "Backend development",
+    "description": "with this course you can develop enterprise level apps",
+    "pricing": 20,
+    "objectives": "To be backend developer",
+    "welcomeMessage": "Welcome to my course, I hope you enjoy it",
+    "image": "image url",
+    "isPublished": false,
+    "lectures": [
+        {
+            "title": "Dependency Injection",
+            "freePreview": true,
+            "video": "video url"
+        }
+    ]
+}

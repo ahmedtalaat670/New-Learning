@@ -1,0 +1,7 @@
+POST http://localhost:3000/api/v1/orders
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkMGVmYWY0ZS1mOWM5LTRlYWYtYjRlMS03NzhlNjlhMjE4ZDQiLCJlbWFpbCI6ImFobWVkM0BnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc4Mzc2NDE4MywiZXhwIjoxNzgzNzY3NzgzLCJhdWQiOiJsb2NhbGhvc3Q6MzAwMCIsImlzcyI6ImxvY2FsaG9zdDozMDAwIn0.r7XE6fx_K2ebuH4nZQUDMlFcdZzAY2LDxFYHF7eT8e8
+
+{
+    "courseId": 4
+}

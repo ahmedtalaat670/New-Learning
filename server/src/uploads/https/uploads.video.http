@@ -1,0 +1,11 @@
+POST http://localhost:3000/api/v1/uploads/video
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNDRkMzVhMy05MjIxLTRkM2YtYTlhNy05MTdmNzBhZmIzMDAiLCJlbWFpbCI6ImFobWVkQGdtYWlsLmNvbSIsInJvbGUiOiJpbnN0cnVjdG9yIiwiaWF0IjoxNzgzODQ3MjI3LCJleHAiOjE3ODM4NTA4MjcsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.cfM0JonlklZQroxhwu7rasy45qzZE3cF7LSqHS4hTbU
+
+file
+--WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="test-video.mp4"
+Content-Type: video/mp4
+
+< ./test-video.mp4
+--WebKitFormBoundary--

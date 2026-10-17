@@ -1,0 +1,10 @@
+POST http://localhost:3000/api/v1/uploads/image
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary
+
+file
+--WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="test-image.png"
+Content-Type: image/png
+
+< ./test-image.png
+--WebKitFormBoundary--
