@@ -6,13 +6,13 @@ import {
   Post,
   Req,
   Res,
-} from '@nestjs/common';
-import { AuthService } from './providers/auth.service';
-import { SignInDto } from './dtos/sign-in.dto';
-import { SignUpDto } from './dtos/sign-up.dto';
-import { Auth } from './decorators/auth.decorator';
-import { AuthType } from './enums/auth-type.enum';
-import { RefreshTokenDto } from './dtos/refresh-token.dto';
+} from "@nestjs/common";
+import { AuthService } from "./providers/auth.service";
+import { SignInDto } from "./dtos/sign-in.dto";
+import { SignUpDto } from "./dtos/sign-up.dto";
+import { Auth } from "./decorators/auth.decorator";
+import { AuthType } from "./enums/auth-type.enum";
+import { RefreshTokenDto } from "./dtos/refresh-token.dto";
 import {
   ApiBadRequestResponse,
   ApiBody,
@@ -22,43 +22,57 @@ import {
   ApiOperation,
   ApiTags,
   ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
-import type { Request, Response } from 'express';
+} from "@nestjs/swagger";
+import type { Request, Response } from "express";
 
-@ApiTags('Authentication')
-@Controller('auth')
+@ApiTags("Authentication")
+@Controller("auth")
 @Auth(AuthType.None)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('sign-in')
+  @Post("sign-in")
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Sign in a user',
+    summary: "Sign in a user",
     description:
-      'Authenticates user credentials against the database and issues fresh JSON Web Tokens (JWT).',
+      "Authenticates user credentials against the database and issues fresh JSON Web Tokens (JWT).",
   })
   @ApiBody({ type: SignInDto })
   @ApiOkResponse({
-    description: 'Successfully authenticated.',
+    description: "Successfully authenticated.",
     schema: {
-      type: 'object',
+      type: "object",
       properties: {
-        accessToken: {
-          type: 'string',
-          description: 'Short-lived application bearer access token',
+        user: {
+          type: "object",
+          properties: {
+            name: {
+              type: "string",
+              example: "Ahmed",
+            },
+            email: {
+              type: "string",
+              example: "ahmed@example.com",
+            },
+            id: {
+              type: "string",
+              example: "123-123-asd",
+            },
+            role: {
+              type: "string",
+              example: "USER",
+            },
+          },
         },
-      },
-      example: {
-        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
       },
     },
   })
   @ApiBadRequestResponse({
-    description: 'Validation failure on payload inputs.',
+    description: "Validation failure on payload inputs.",
   })
   @ApiUnauthorizedResponse({
-    description: 'Invalid email address or password credentials provided.',
+    description: "Invalid email address or password credentials provided.",
   })
   public signIn(
     @Body() signInDto: SignInDto,
@@ -67,28 +81,45 @@ export class AuthController {
     return this.authService.signIn(signInDto, response);
   }
 
-  @Post('sign-up')
+  @Post("sign-up")
   @ApiOperation({
-    summary: 'Register a new user account',
+    summary: "Register a new user account",
     description:
-      'Provisions a new user in the database system and returns an authorization token context block.',
+      "Provisions a new user in the database system and returns an authorization token context block.",
   })
   @ApiBody({ type: SignUpDto })
   @ApiCreatedResponse({
-    description: 'User registration processing completed successfully.',
+    description: "Successfully authenticated.",
     schema: {
-      type: 'object',
+      type: "object",
       properties: {
-        accessToken: { type: 'string' },
-      },
-      example: {
-        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        user: {
+          type: "object",
+          properties: {
+            name: {
+              type: "string",
+              example: "Ahmed",
+            },
+            email: {
+              type: "string",
+              example: "ahmed@example.com",
+            },
+            id: {
+              type: "string",
+              example: "123-123-asd",
+            },
+            role: {
+              type: "string",
+              example: "USER",
+            },
+          },
+        },
       },
     },
   })
   @ApiConflictResponse({
     description:
-      'Email already exists or payload inputs failed security checking guidelines.',
+      "Email already exists or payload inputs failed security checking guidelines.",
   })
   public signUp(
     @Body() signUpDto: SignUpDto,
@@ -97,31 +128,46 @@ export class AuthController {
     return this.authService.signUp(signUpDto, response);
   }
 
-  @Post('refresh-token')
+  @Post("refresh-token")
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Refresh an access token',
+    summary: "Refresh an access token",
     description:
-      'Exchanges a valid, unexpired refresh token for a newly generated short-lived access token session.',
+      "Exchanges a valid, unexpired refresh token for a newly generated short-lived access token session.",
   })
   @ApiBody({ type: RefreshTokenDto })
   @ApiOkResponse({
-    description: 'New authorization credentials issued contextually.',
+    description: "Successfully authenticated.",
     schema: {
-      type: 'object',
+      type: "object",
       properties: {
-        accessToken: { type: 'string' },
-        refreshToken: { type: 'string' },
-      },
-      example: {
-        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-        refreshToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        user: {
+          type: "object",
+          properties: {
+            name: {
+              type: "string",
+              example: "Ahmed",
+            },
+            email: {
+              type: "string",
+              example: "ahmed@example.com",
+            },
+            id: {
+              type: "string",
+              example: "123-123-asd",
+            },
+            role: {
+              type: "string",
+              example: "USER",
+            },
+          },
+        },
       },
     },
   })
   @ApiUnauthorizedResponse({
     description:
-      'Provided refresh token signature is revoked, modified, or expired.',
+      "Provided refresh token signature is revoked, modified, or expired.",
   })
   public userRefreshToken(
     @Req() request: Request,
@@ -129,20 +175,20 @@ export class AuthController {
   ) {
     return this.authService.refreshToken(request, response);
   }
-  @Post('logout')
+  @Post("logout")
   logout(@Res({ passthrough: true }) response: Response) {
-    response.clearCookie('refreshToken', {
+    response.clearCookie("refreshToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
     });
-    response.clearCookie('accessToken', {
+    response.clearCookie("accessToken", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
     });
     return {
-      message: 'Logged out successfully',
+      message: "Logged out successfully",
     };
   }
 }
